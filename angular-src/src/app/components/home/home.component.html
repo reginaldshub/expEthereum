@@ -1,0 +1,22 @@
+<div class="jumbotron text-center">
+<h1>Ethereum Login</h1>
+<p class="lead">Welcome to world of Ether</p>
+<div>
+  <a *ngIf = '!authService.loggedIn()' class="btn btn-primary" [routerLink]="['/register']">Register</a>
+  <a *ngIf = "!authService.loggedIn()" class="btn btn-default" [routerLink]="['/login']">Login</a>
+</div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <h3>Distributed</h3>
+    <p>blablabla</p>
+  </div>
+  <div class="col-md-4">
+      <h3>Consensus</h3>
+      <p>blablabla</p>
+  </div>
+  <div class="col-md-4">
+      <h3>Smart Contract</h3>
+      <p>blablabla</p>
+  </div>
+</div>
