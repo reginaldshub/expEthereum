@@ -57,6 +57,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ValidateService } from "./services/validate.service";
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { BalanceComponent } from './components/balance/balance.component';
+import { TestnetworkComponent } from './components/testnetwork/testnetwork.component';
+import { LocalnetworkComponent } from './components/localnetwork/localnetwork.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -65,7 +67,9 @@ const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]
    ,children: [
     {path: 'balance', component: BalanceComponent},
-     { path: 'transaction', component: TransactionsComponent}
+     { path: 'transaction', component: TransactionsComponent},
+     { path: 'test', component: TestnetworkComponent},
+     { path: 'local', component: LocalnetworkComponent}
    ]
 },
   { path: 'profile', component: ProfileComponent,  canActivate:[AuthGuard]}
@@ -81,7 +85,9 @@ const appRoutes: Routes = [
     DashboardComponent,
     ProfileComponent,
     TransactionsComponent,
-    BalanceComponent
+    BalanceComponent,
+    TestnetworkComponent,
+    LocalnetworkComponent
   ],
   imports: [
   BrowserAnimationsModule,

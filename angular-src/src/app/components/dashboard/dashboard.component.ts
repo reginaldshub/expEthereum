@@ -28,6 +28,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() { 
     
+
+    
  }
 
 //  connection(){}
@@ -57,53 +59,18 @@ export class DashboardComponent implements OnInit {
     log:String
   }
 
-  checkConnection(){
-    this.authService.checkConnection().subscribe(res => {
-      if(res.success == false){
-        this.flashMessage.show("Contact Admin Sir", {cssClass: 'alert-danger', timeout:5000})
-        this.router.navigate(['dashboard']);
-        this.table = false;
-      }
-      else{
-        this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:2000})
-      }
-      console.log(res);
-      
-},
-err => {
-console.log(err);
-return false;
-});
-  }
+  
 
-  dbpush(localAccountNumber, password){
-    this.db.localAccountNumber = localAccountNumber;
-    this.db.passphrase = password;
-    this.log = localStorage.getItem("user");
-      this.log = JSON.parse(this.log);
-      var l = this.log.username;
-      this.db.log=l;
-    this.authService.dbpush(this.db).subscribe(res => {
-          console.log("success");
-  },
-  err => {
-    console.log(err);
-    return false;
-  });
-  }
+
 
 
 balance(network, account){
-  // this.checkConnection();
-  // this.router.navigate(['balance']);
+  //this.router.navigate(['local']);
   this.table = false;
   this.accountBalance = " ";
   this.useraccount.network = network;
   this.useraccount.account = account;
-  if(network == "local"){
-    this.getLocalBalance(account);
-  }
-  else{
+ 
   this.authService.getBalance(this.useraccount).subscribe(Bal => {
       console.log(Bal.balance)
       if(Bal.balance == undefined){
@@ -123,12 +90,10 @@ balance(network, account){
     return false;
   });
 }
-}
 
 transaction(network, account){
   
   this.table = true;
-  this.checkConnection();
   this.useraccount.network = network;
   this.useraccount.account = account;
   
@@ -155,100 +120,4 @@ transaction(network, account){
 }
 
 
-
-
-//local Begins here
-
-allfalse(){
-  this.localAccount = false;
-  this.localList = false;
-  this.localBalance = false;
-  this.localTransaction = false;
-  this.localPending = false;
-}
-
-clear(){
-  this.createclicked = false;
-  this.transactionclicked  = false;
-  this.balanceclicked  = false;
-}
-
-listAccount(){
-  this.clear();
-  this.localList = true;
-  this.localAccount = false;
-  this.localBalance = false;
-  this.authService.getAccount().subscribe(res => {
-    console.log(res.accounts);
-    this.accounts = res.accounts;
-  },
-  err => {
-    console.log(err);
-    return false;
-  });
-}
-
-createClick(){
-  this.allfalse();
-  this.clear();
-this.createclicked = true;
-}
-createAccount(password){
-  this.allfalse();
-  this.localAccount = true;
-  this.createclicked = false;
-  this.local.password = password;
-  this.authService.createAccount(this.local).subscribe(res => {
-    console.log(res.created);
-    this.createdAccount = res.created;
-  },
-  err => {
-    console.log(err);
-    return false;
-  });
-}
-balanceClick(){
-  this.allfalse();
-  this.clear();
-this.balanceclicked  = true;
-}
-getLocalBalance(address){
-  this.allfalse();
-  this.localBalance = true;
-  this.balanceclicked  = false;
-  this.loc.address = address;
-  this.authService.getLocalBalance(this.loc).subscribe(res => {
-    console.log(res);
-    this.Balance = res.balance;
-});
-}
-transactionClick(){
-  this.clear();
-  this.allfalse();
-  this.transactionclicked  = true;
-  }
-  sendTransaction(from,to,value){
-    this.transactionclicked  = false;
-    this.allfalse();
-    this.localTransaction = true;
-  this.transac.from = from;
-  this.transac.to = to;
-  this.transac.value = value;
-  this.pending();
-  this.authService.sendTransaction(this.transac).subscribe(res => {
-    console.log(res.hash.transactionHash);
-      this.pending();    
-    this.localTransactionHash = JSON.stringify(res.hash.transactionHash);
-});
-  }
-
-  pending(){
-    this.clear();
-    this.allfalse();
-    this.localPending = true;
-    this.authService.pendingTransaction().subscribe(res => {
-      console.log(res.status.pending);
-      this.localPendingHash = res.status.pending;
-  });
-  }
 }

@@ -19,7 +19,7 @@ const web3 = new Web3(web3Provider);
 router.post('/addAccount', (req, res, next) => {
 //   console.log(req.body);
 variable = req.body;
-    User.addAccount(variable, (err, callback) => {
+    User.addAccount(variable, (err, res) => {
         if(err){
             res.json({success:false, msg:'Failed to register user'})
         }else{
@@ -55,6 +55,37 @@ User.getUserByUsername('tony',(err,user) => {
         console.log(user)
 })
 
+router.get('/isConnected', (req, res, next) => {
+
+    // web3.eth.net.isListening().then((res, err)=>{
+    //     if(err){
+    //         res.json({success:false, msg: "Please Contact admin"})
+    //     console.log("err");
+    //     }
+    //     else{
+    //         res.json({success:true, msg: "Good to go"});
+    //     console.log("response");
+    //     }
+    // });
+
+    web3.eth.net.isListening()
+    .then(() => {
+      console.log('is connected');
+      res.json({success:true, msg: "Good to go"});
+     
+    })
+    .catch(e => {console.log('Something went wrong')
+    res.json({success:false, msg: "Please Contact admin"})
+        });
+    
+    // if(web3.eth.isConnected()) {
+    //    res.json({success:true, msg: "Good to go"});
+    // } else {
+    //     res.json({success:false, msg: "Please Contact admin"})
+    // }
+
+});
+
 
 router.post('/authenticate', (req, res, next) => {
     const username = req.body.username;
@@ -81,7 +112,8 @@ router.post('/authenticate', (req, res, next) => {
                      id: user._id,   
                      name: user.name,
                      username: user.username,
-                     email: user.email
+                     email: user.email,
+                     account: user.account
                 }
             });
             }else{
@@ -145,7 +177,7 @@ router.post('/transaction', (req, res, next) => {
     let account = req.body.account;
     request(`https://api-${network}.etherscan.io/api?module=account&action=txlist&address=${account}&tag=latest&apikey=M9GI6SXIHUY3EWWPRB229DVT5JZZE7MJX4`, (error, response, body) => {
     // console.log("body"+body);
-    // console.log("response"+response);
+    console.log("response"+response);
     res.json({response});
      }); 
 });

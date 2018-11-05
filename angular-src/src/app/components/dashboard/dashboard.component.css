@@ -5,3 +5,69 @@ mat-form-field{
 	width:40%;
 	margin-right:30px;
 }
+
+
+/* test area */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+.card{
+    border: solid black 1px;
+    box-shadow: 10px 8px 10px grey;
+}
+
+.container {
+    margin-bottom: 10%;
+    top:1000px;
+    width: 90%;
+    border: 1px solid black;
+    border-radius: 8px;
+    height:600px;
+    box-shadow: 10px 10px 10px grey;
+}
+
+div.box {
+    box-sizing: border-box;
+    width: 20%;
+    height:auto;
+    float: left;
+}
+
+mat-form-field{
+    width:200px;
+    right:60px;
+    height: 100px;
+}

@@ -21,6 +21,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         require: true
     },
+    account: {
+        type:String,
+        require: true
+    },
     localAccountNumber: {
         type: String
     },
@@ -62,14 +66,14 @@ module.exports.addAccount = function(dbvar, callback){
        
         var arr_account = [];
         var arr_passphrase = [];
-        dbo.collection("users").findOne( myquery, function(err, res) {
-            if (err) throw err;
-            // console.log(res.localAccountNumber);
-            arr_account = res.localAccountNumber;
-            arr_passphrase = res.passphrase;
-            db.close();
-          });
-          setTimeout(() => {
+        // dbo.collection("users").findOne( myquery, function(err, res) {
+        //     if (err) throw err;
+        //     // console.log(res.localAccountNumber);
+        //     arr_account = res.localAccountNumber;
+        //     arr_passphrase = res.passphrase;
+        //     db.close();
+        //   });
+        //   setTimeout(() => {
           console.log(arr_account);
           console.log(arr_passphrase);
           
@@ -78,15 +82,15 @@ module.exports.addAccount = function(dbvar, callback){
           console.log(arr_account);
           console.log(arr_passphrase);
           
-          var newvalues = { $addToSet: {localAccountNumber:dbvar.localAccountNumber, passphrase:dbvar.passphrase } };
-
+          var newvalues = { $push: {'localAccountNumber':dbvar.localAccountNumber, passphrase:dbvar.passphrase } };
+        //   
 
         dbo.collection("users").updateOne(myquery, newvalues, function(err, res) {
           if (err) throw err;
           console.log("1 document updated"+res);
         //   db.close();
         });
-    },1000);
+    // },1000);
       });
       
 

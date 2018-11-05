@@ -1,0 +1,92 @@
+<br />
+<!-- <div class="container">
+<form class = "form">
+  <mat-form-field class = "form-field">
+    <mat-select placeholder="Network" [(value)]="network">
+      <mat-option class="form-control" value="rinkeby">Rinkeyby Test Network</mat-option>
+      <mat-option class="form-control" value="ropsten">Ropsten Test Network</mat-option>
+      <mat-option class="form-control" value="kovan">Kovan Test Network</mat-option>
+      <mat-option class="form-control" value="local">LocalHost 8545</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class = "form-field">
+      <input matInput name="Account Number" type="text" placeholder="Account Number"  [(ngModel)]="account" required >
+      <mat-error>This field is required</mat-error>
+  </mat-form-field>
+</form>
+<a [routerLink]="['balance']" [queryParams]="{account: account}" queryParamsHandling="merge" >
+ balance
+</a>
+<button class="btn btn-primary" (click)="transaction(network,account)">Transaction</button>
+<br />
+<br/>
+</div> -->
+  <div class="row">
+      <div class="col-lg-5">
+          {{account}}<br/>
+          {{network}}<br/>
+          {{username}}<br/>
+          {{accountBalance}}</div>
+      <div class="col-lg-7">    
+        <div class="tbl-header">
+        <table class="table">
+            <thead>
+              <tr>
+                <!-- <th>blockNumber</th> -->
+                <th>&nbsp;</th>
+                <th style = "width:80%;text-align: center">hash</th>
+                <!-- <th>from</th>
+                <th>to</th> -->
+                <th>status</th>
+                <!-- <th>value</th> -->
+              </tr>
+            </thead>
+          </table>
+          </div>
+          <div style="overflow:auto; max-height:390px;">
+            <table>
+            <tbody *ngFor = "let a of result">
+              <tr>
+                <td><br/>
+                  </td>
+                <!-- <td>{{a.blockNumber}}</td> -->
+                <td  style = "width:60%;font-size: 12px"> <a href="" data-toggle="modal" data-target="#myModal" (click)="transData(a.hash)">{{a.hash}} </a></td>
+                <!-- <td>{{a.from}}</td> -->
+                <!-- <td>{{a.to}}</td> -->
+                <td *ngIf = "a.txreceipt_status == 1">Success</td>
+                <td *ngIf = "a.txreceipt_status != 1">Failed</td>
+                <!-- <td>{{a.value/1000000000000000000}}</td> -->
+              </tr>
+              <tr>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+        </div>
+  </div>
+ 
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+          <h4 class="modal-title">Transaction Description</h4>
+        </div>
+        <div class="modal-body">
+          <p><strong>From</strong>&nbsp;&nbsp;{{modalValues.from}}</p>
+          <p><strong>To</strong>&nbsp;&nbsp;{{modalValues.to}}</p>
+          <p><strong>Value</strong>&nbsp;&nbsp;{{modalValues.value/1000000000000000000}}&nbsp;&nbsp;<strong>ethers.</strong></p>
+          <p><strong>Status</strong>&nbsp;&nbsp;{{modalValues.txreceipt_status}}</p>
+          <p><strong>Time</strong>&nbsp;&nbsp;{{dateString}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
