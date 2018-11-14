@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const config = require('../config/database')
 url = 'mongodb://localhost:27017/';
 
-//schema
+//schema 1
 const UserSchema = mongoose.Schema({
     name: {
         type: String
@@ -31,10 +31,12 @@ const UserSchema = mongoose.Schema({
     passphrase: {
         type: String
     }
+
     }
 );
 
 const User = module.exports = mongoose.model('User', UserSchema);
+
 
 module.exports.getUserById = function(id, callback){
     User.findById(id,callback);
@@ -112,3 +114,4 @@ module.exports.comparePassword = function(candidatePassword, hash, callback){
         callback(null, isMatch);
     })
 }
+

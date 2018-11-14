@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const Transaction = require('../models/transaction');
 const config = require('../config/database');
 var ethers = require('ethers');
 var providers = require('ethers-providers');
@@ -47,6 +48,27 @@ router.post('/register', (req, res, next) => {
         }
     })
 });
+
+//local TRansaction
+
+// router.post('/localTransaction', (req, res, next) => {
+//     let newTransaction = new Transaction({
+//         from: req.body.from,
+//         to: req.body.to,
+//         ether: req.body.ether,
+//         hash: req.body.hash,
+//         time: req.body.time
+//     });
+
+//     Transaction.addTransaction(newTransaction, (err, user) => {
+//         if(err){
+//             res.json({success:false, msg:'Failed to add transaction'})
+//         }else{
+//             res.json({success:true, msg:'transaction added'})
+//         }
+//     })
+// });
+
 
 User.getUserByUsername('tony',(err,user) => {
     if(err)
@@ -207,33 +229,51 @@ router.post('/localbalance', (req, res, next) => {
 
 // web3.eth.sendTransaction({from:'0x80f38b4db9e910bb1dd3019ab44aa947180ccb3d', to: '0xa8ade7feab1ece71446bed25fa0cf6745c19c3d5', value: web3.toWei(10, "ether")})
 router.post('/localtransaction', (req, res, next) => {
-    console.log(req.body.from);
-    console.log(req.body.to);
-    console.log(req.body.value);
-    web3.eth.miner.start(1);
-    web3.eth.personal.unlockAccount(req.body.from, "password",3000);
-    web3.eth.personal.unlockAccount(req.body.to, "password",3000);
+    // console.log(req.body.from);
+    // console.log(req.body.to);
+    // console.log(req.body.value);
+    // web3.eth.miner.start(1);
+    // web3.eth.personal.unlockAccount(req.body.from, "password",3000);
+    // web3.eth.personal.unlockAccount(req.body.to, "password",3000);
     web3.eth.sendTransaction({
         'to': req.body.to,
         'from': req.body.from,
         'value': req.body.value
     })
     .then(function(receipt){
+        var datetime = new Date();
+        hashval = receipt.blockHash;
+        console.log("this is hash"+hashval);
+        let newTransaction = new Transaction({
+            from: req.body.from,
+            to: req.body.to,
+            ether: req.body.value,
+            hash: hashval,
+            time: datetime
+        });
+    
+        Transaction.addTransaction(newTransaction, (err, res) => {
+            if(err){
+                res.json({success:false, msg:'Failed to add transaction'})
+            }else{
+                res.json({success:true, msg:'transaction added'})
+            }
+        })
         console.log(receipt);
     });
 
-    web3.eth.sendTransaction({from: req.body.from, to:req.body.to, value: web3.utils.toWei(req.body.value, 'ether'), gasLimit: 21000, gasPrice: 20000000000})
-    .then(function(err,hash){
-        if(err){
-            //console.log("hash"+err);
-            setTimeout(() =>{
-                res.json({hash:err});
-            },10000);
+    // web3.eth.sendTransaction({from: req.body.from, to:req.body.to, value: web3.utils.toWei(req.body.value, 'ether'), gasLimit: 21000, gasPrice: 20000000000})
+    // .then(function(err,hash){
+    //     if(err){
+    //         //console.log("hash"+err);
+    //         setTimeout(() =>{
+    //             res.json({hash:err});
+    //         },10000);
             
-        }       
-        else
-        console.log("err"+err);
-    });
+    //     }       
+    //     else
+    //     console.log("err"+err);
+    // });
 });
 router.get('/pendingTransaction', (req, res, next) => {
     //txpool
@@ -267,6 +307,24 @@ const getAccount = async () => {
 };
 getAccount();
 })
+
+router.get('/localTransactionList', (req, res, next) => {
+
+    Transaction.find({},function (err, trans) {
+    //    console.log(trans);
+       res.send(trans);
+    });
+
+    
+
+
+// Transaction.getAllLocalTransactions((req, res ) => {
+//     // if(err) throw err;
+   
+//         console.log("response in users"+res);
+// })
+
+});
 
 router.get('/profile', passport.authenticate('jwt', {session:false}), (req, res, next) => {
     var etherString = new Array();

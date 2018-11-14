@@ -24,6 +24,7 @@
     "@angular/router": "^6.0.3",
     "angular2-jwt": "^0.2.3",
     "core-js": "^2.5.4",
+    "ngx-filter-pipe": "^2.1.2",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.3.3",
     "zone.js": "^0.8.26"
@@ -49,14 +50,13 @@
     "tslint": "~5.9.1",
     "typescript": "~2.7.2"
   },
-
   "serve": {
     "builder": "@angular-devkit/build-angular:dev-server",
     "options": {
-        "browserTarget": "app:build",
-        "ssl": true,
-        "sslKey": "/ssl/server.key",
-        "sslCert": "/ssl/server.crt"
+      "browserTarget": "app:build",
+      "ssl": true,
+      "sslKey": "/ssl/server.key",
+      "sslCert": "/ssl/server.crt"
     }
-}
+  }
 }

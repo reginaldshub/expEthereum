@@ -15,21 +15,21 @@ export class AuthService {
   dbpush(newAccounts){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3002/users/addAccount', newAccounts, {headers: headers})
+    return this.http.post('http://localhost:3000/users/addAccount', newAccounts, {headers: headers})
     .map(res => res.json());
   }
 
   registerUser(user){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3002/users/register', user, {headers: headers})
+    return this.http.post('http://localhost:3000/users/register', user, {headers: headers})
     .map(res => res.json());
   }
 
   authenticateUser(user){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3002/users/authenticate', user, {headers: headers})
+    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers})
     .map(res => res.json());
   }
 
@@ -38,7 +38,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization',this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3002/users/balance', useraccount, {headers: headers})
+    return this.http.post('http://localhost:3000/users/balance', useraccount, {headers: headers})
     .map(res => res.json());
   }
 
@@ -47,7 +47,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization',this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3002/users/transaction', useraccount, {headers: headers})
+    return this.http.post('http://localhost:3000/users/transaction', useraccount, {headers: headers})
     .map(res => res.json());
   }
 
@@ -56,7 +56,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization',this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3002/users/createAccount', password, {headers: headers})
+    return this.http.post('http://localhost:3000/users/createAccount', password, {headers: headers})
     .map(res => res.json());
   }
 
@@ -65,7 +65,7 @@ export class AuthService {
   this.loadToken();
   headers.append('Authorization',this.authToken);
   headers.append('Content-Type', 'application/json');
-  return this.http.get('http://localhost:3002/users/isConnected', {headers: headers})
+  return this.http.get('http://localhost:3000/users/isConnected', {headers: headers})
   .map(res => res.json());
   }
 
@@ -74,7 +74,7 @@ export class AuthService {
   this.loadToken();
   headers.append('Authorization',this.authToken);
   headers.append('Content-Type', 'application/json');
-  return this.http.get('http://localhost:3002/users/getAccounts', {headers: headers})
+  return this.http.get('http://localhost:3000/users/getAccounts', {headers: headers})
   .map(res => res.json());
  }
 
@@ -83,7 +83,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization',this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3002/users/localbalance', address, {headers: headers})
+    return this.http.post('http://localhost:3000/users/localbalance', address, {headers: headers})
     .map(res => res.json());
  }
 
@@ -92,7 +92,7 @@ export class AuthService {
   this.loadToken();
   headers.append('Authorization',this.authToken);
   headers.append('Content-Type', 'application/json');
-  return this.http.post('http://localhost:3002/users/localtransaction', transaction, {headers: headers})
+  return this.http.post('http://localhost:3000/users/localtransaction', transaction, {headers: headers})
   .map(res => res.json());
  }
 
@@ -101,7 +101,7 @@ export class AuthService {
   this.loadToken();
   headers.append('Authorization',this.authToken);
   headers.append('Content-Type', 'application/json');
-  return this.http.get('http://localhost:3002/users/pendingTransaction', {headers: headers})
+  return this.http.get('http://localhost:3000/users/pendingTransaction', {headers: headers})
   .map(res => res.json());
  }
 
@@ -110,7 +110,16 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization',this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3002/users/profile', {headers: headers})
+    return this.http.get('http://localhost:3000/users/profile', {headers: headers})
+    .map(res => res.json());
+  }
+
+  localTransactionList(){
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization',this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/users/localTransactionList', {headers: headers})
     .map(res => res.json());
   }
 

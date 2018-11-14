@@ -3,13 +3,38 @@ import { AuthService } from "../../services/auth.service";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FlashMessagesService } from '../../flash/flash-messages.service';
 
+import {MatTableDataSource} from '@angular/material';
+
+export interface PeriodicElement {
+  _id:number;
+  from: string;
+  to:string;
+  ether: number;
+  hash: string;
+  time:string;
+}
+
+
+let ELEMENT_DATA: PeriodicElement[];
+//   = [
+//   {hash: "1", from: 'Hydrogen', ether: 1.0079},
+//   {hash: "2", from: 'Helium', ether: 4.0026},
+//   {hash: "3", from: 'Lithium', ether: 6.941},
+//   {hash: "4", from: 'Beryllium', ether: 9.0122},
+//   {hash: "5", from: 'Boron', ether: 10.811},
+//   {hash: "6", from: 'Carbon', ether: 12.0107},
+//   {hash: "7", from: 'Nitrogen', ether: 14.0067},
+//   {hash: "8", from: 'Oxygen', ether: 15.9994},
+
+// ];
+
 @Component({
   selector: 'app-localnetwork',
   templateUrl: './localnetwork.component.html',
   styleUrls: ['./localnetwork.component.css']
 })
 export class LocalnetworkComponent implements OnInit {
- 
+  localtransactionlist;modalValues={};
   accountBalance;log;
   result;createdAccount;
   accounts;Balance;localTransactionHash;localPendingHash;
@@ -23,6 +48,7 @@ export class LocalnetworkComponent implements OnInit {
   pushclicked:boolean;
   transactionclicked:boolean;
   table:boolean=false;
+  dataSource;
 
   constructor(private authService: AuthService,
     private router:Router,private flashMessage: FlashMessagesService,
@@ -32,6 +58,24 @@ export class LocalnetworkComponent implements OnInit {
 
   ngOnInit() {
     this.checkConnection();
+    
+    this.authService.localTransactionList().subscribe(res => {
+      // console.log(res);
+      this.localtransactionlist = res;
+      ELEMENT_DATA = this.localtransactionlist;
+      console.log(ELEMENT_DATA);
+    })
+    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+    // ELEMENT_DATA = this.localtransactionlist;
+  }
+
+
+  displayedColumns: string[] = ['hash', 'from', 'ether'];
+    
+ 
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 //  connection(){}
@@ -60,10 +104,6 @@ db = {
   passphrase:String,
   log:String
 }
-
-  
-
-
   checkConnection(){
     this.authService.checkConnection().subscribe(res => {
       if(res.success == false){
@@ -72,7 +112,7 @@ db = {
         this.table = false;
       }
       else{
-        this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:2000})
+        // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
       }
       console.log(res);
       
@@ -215,7 +255,7 @@ transactionClick(){
     this.transactionclicked = true;
   }
   
-  }
+  }  
   sendTransaction(from,to,value){
     this.transactionclicked  = false;
     this.allfalse();
@@ -223,10 +263,10 @@ transactionClick(){
   this.transac.from = from;
   this.transac.to = to;
   this.transac.value = value;
-  this.pending();
+  // this.pending();
   this.authService.sendTransaction(this.transac).subscribe(res => {
     console.log(res.hash.transactionHash);
-      this.pending();    
+      // this.pending();    
     this.localTransactionHash = JSON.stringify(res.hash.transactionHash);
 });
   }
@@ -252,5 +292,24 @@ transactionClick(){
 console.log("triggered"+network);
 
   }
+
+  // localTransactionList(){
+  
+  // }
+
+
+  localtransactionmodal(a){
+    var val = a;
+    var index = this.localtransactionlist.findIndex(function(item, i){
+      return item.hash === val;
+    });
+    
+    console.log("index Is"+index);
+    this.modalValues = this.localtransactionlist[index];
+  // console.log(index, filteredObj);
+      console.log(this.modalValues);
+    }
+
+
 
 }

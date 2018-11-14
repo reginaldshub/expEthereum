@@ -20,7 +20,7 @@ const app = express();
 
 const users = require('./routes/users');
 
-const port = 3002;
+const port = 3000;
 
 //Middleware
 app.use(cors());

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../../services/auth.service";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FlashMessagesService } from '../../flash/flash-messages.service';
+import {Sort} from '@angular/material';
 
 @Component({
   selector: 'app-testnetwork',
@@ -48,7 +49,7 @@ export class TestnetworkComponent implements OnInit {
     }
 
   ngOnInit() {
-     this.internetConnection();
+    //  this.internetConnection();
 
     let user;
     user = localStorage.getItem("user");
