@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from "../../services/auth.service";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FlashMessagesService } from '../../flash/flash-messages.service';
 
-import {MatTableDataSource} from '@angular/material';
+import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 
 export interface PeriodicElement {
   _id:number;
@@ -16,18 +16,6 @@ export interface PeriodicElement {
 
 
 let ELEMENT_DATA: PeriodicElement[];
-//   = [
-//   {hash: "1", from: 'Hydrogen', ether: 1.0079},
-//   {hash: "2", from: 'Helium', ether: 4.0026},
-//   {hash: "3", from: 'Lithium', ether: 6.941},
-//   {hash: "4", from: 'Beryllium', ether: 9.0122},
-//   {hash: "5", from: 'Boron', ether: 10.811},
-//   {hash: "6", from: 'Carbon', ether: 12.0107},
-//   {hash: "7", from: 'Nitrogen', ether: 14.0067},
-//   {hash: "8", from: 'Oxygen', ether: 15.9994},
-
-// ];
-
 @Component({
   selector: 'app-localnetwork',
   templateUrl: './localnetwork.component.html',
@@ -52,23 +40,28 @@ export class LocalnetworkComponent implements OnInit {
 
   constructor(private authService: AuthService,
     private router:Router,private flashMessage: FlashMessagesService,
-    private route:ActivatedRoute) { }
+    private route:ActivatedRoute) {  
+      this.localtransactionlistfunc();
+      this.dataSource = new MatTableDataSource(ELEMENT_DATA);}
 
    
-
+      @ViewChild(MatPaginator) paginator: MatPaginator;
+      @ViewChild(MatSort) sort: MatSort;
   ngOnInit() {
     this.checkConnection();
-    
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    // ELEMENT_DATA = this.localtransactionlist;
+  }
+
+  localtransactionlistfunc(){
     this.authService.localTransactionList().subscribe(res => {
       // console.log(res);
       this.localtransactionlist = res;
       ELEMENT_DATA = this.localtransactionlist;
-      console.log(ELEMENT_DATA);
+      // console.log(ELEMENT_DATA);
     })
-    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
-    // ELEMENT_DATA = this.localtransactionlist;
   }
-
 
   displayedColumns: string[] = ['hash', 'from', 'ether'];
     
@@ -267,7 +260,9 @@ transactionClick(){
   this.authService.sendTransaction(this.transac).subscribe(res => {
     console.log(res.hash.transactionHash);
       // this.pending();    
+      this.localtransactionlistfunc();
     this.localTransactionHash = JSON.stringify(res.hash.transactionHash);
+
 });
   }
 

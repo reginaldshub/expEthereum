@@ -7,6 +7,7 @@ import { RouterModule,Routes } from "@angular/router";
 import { FlashMessagesModule } from './flash/module';
 import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./guards/auth.guard";
+import { NgxPaginationModule} from "ngx-pagination";
 
 import {
   MatAutocompleteModule,
@@ -90,6 +91,7 @@ const appRoutes: Routes = [
     LocalnetworkComponent
   ],
   imports: [
+    NgxPaginationModule,
   BrowserAnimationsModule,
   MatAutocompleteModule,
   MatBadgeModule,

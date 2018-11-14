@@ -3,7 +3,7 @@ button{
     margin-top: 15px;
 }
 
-.example-container {
+.mat-elevation-z8 {
     height: 400px;
     overflow: auto;
   }
@@ -11,4 +11,3 @@ button{
   table {
     width: 40%;
   }
-  
