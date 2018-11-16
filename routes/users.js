@@ -199,8 +199,8 @@ router.post('/transaction', (req, res, next) => {
     let account = req.body.account;
     request(`https://api-${network}.etherscan.io/api?module=account&action=txlist&address=${account}&tag=latest&apikey=M9GI6SXIHUY3EWWPRB229DVT5JZZE7MJX4`, (error, response, body) => {
     // console.log("body"+body);
-    console.log("response"+response);
-    res.json({response});
+    // console.log("response"+response);
+    res.json({body});
      }); 
 });
 

@@ -1,0 +1,11 @@
+<!-- <input type="text" [(ngModel)]="userFilter" placeholder="Account"> --><br/>
+<h3><mark>Account List </mark></h3><br/>
+
+    <ul *ngFor = "let accounts of accounts| paginate: { itemsPerPage: 10, currentPage: p} ">
+      
+        <li>{{accounts}}</li>
+    
+      
+    </ul>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  

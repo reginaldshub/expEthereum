@@ -9,6 +9,8 @@ import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./guards/auth.guard";
 import { NgxPaginationModule} from "ngx-pagination";
 
+import { FilterPipeModule } from 'ngx-filter-pipe';
+
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -60,6 +62,12 @@ import { TransactionsComponent } from './components/transactions/transactions.co
 import { BalanceComponent } from './components/balance/balance.component';
 import { TestnetworkComponent } from './components/testnetwork/testnetwork.component';
 import { LocalnetworkComponent } from './components/localnetwork/localnetwork.component';
+import { LocaltransactionsComponent } from './components/localtransactions/localtransactions.component';
+import { LocallistaccountComponent } from './components/locallistaccount/locallistaccount.component';
+import { LocalcreateaccountComponent } from './components/localcreateaccount/localcreateaccount.component';
+import { LocalbalanceComponent } from './components/localbalance/localbalance.component';
+import { LocalsendtransactionComponent } from './components/localsendtransaction/localsendtransaction.component';
+import { LocalpendingtransactionComponent } from './components/localpendingtransaction/localpendingtransaction.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -67,10 +75,29 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]
    ,children: [
+    { path: '', component: LocalnetworkComponent, canActivate:[AuthGuard]
+    ,children: [
+      {path: '', component: LocaltransactionsComponent},
+     {path: 'localtranslist', component: LocaltransactionsComponent},
+     {path: 'locallistaccount', component: LocallistaccountComponent},
+     {path: 'localcreateaccount', component: LocalcreateaccountComponent},
+     {path: 'localbalance', component: LocalbalanceComponent},
+     {path: 'localsendtrans', component: LocalsendtransactionComponent},
+     {path: 'localpendingtrans', component: LocalpendingtransactionComponent},
+   ]},
     {path: 'balance', component: BalanceComponent},
      { path: 'transaction', component: TransactionsComponent},
      { path: 'test', component: TestnetworkComponent},
-     { path: 'local', component: LocalnetworkComponent}
+     { path: 'local', component: LocalnetworkComponent , canActivate:[AuthGuard]
+   ,children: [
+    {path: '', component: LocaltransactionsComponent},
+    {path: 'localtranslist', component: LocaltransactionsComponent},
+    {path: 'locallistaccount', component: LocallistaccountComponent},
+    {path: 'localcreateaccount', component: LocalcreateaccountComponent},
+    {path: 'localbalance', component: LocalbalanceComponent},
+    {path: 'localsendtrans', component: LocalsendtransactionComponent},
+    {path: 'localpendingtrans', component: LocalpendingtransactionComponent},
+  ]}
    ]
 },
   { path: 'profile', component: ProfileComponent,  canActivate:[AuthGuard]}
@@ -88,9 +115,16 @@ const appRoutes: Routes = [
     TransactionsComponent,
     BalanceComponent,
     TestnetworkComponent,
-    LocalnetworkComponent
+    LocalnetworkComponent,
+    LocaltransactionsComponent,
+    LocallistaccountComponent,
+    LocalcreateaccountComponent,
+    LocalbalanceComponent,
+    LocalsendtransactionComponent,
+    LocalpendingtransactionComponent
   ],
   imports: [
+    FilterPipeModule,
     NgxPaginationModule,
   BrowserAnimationsModule,
   MatAutocompleteModule,

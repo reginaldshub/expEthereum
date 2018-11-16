@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransactionsComponent } from './transactions.component';
+import { LocallistaccountComponent } from './locallistaccount.component';
 
-describe('TransactionsComponent', () => {
-  let component: TransactionsComponent;
-  let fixture: ComponentFixture<TransactionsComponent>;
+describe('LocallistaccountComponent', () => {
+  let component: LocallistaccountComponent;
+  let fixture: ComponentFixture<LocallistaccountComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransactionsComponent ]
+      declarations: [ LocallistaccountComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TransactionsComponent);
+    fixture = TestBed.createComponent(LocallistaccountComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

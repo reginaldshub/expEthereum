@@ -1,68 +1,40 @@
 <!-- <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo1">Local Network</button>
   <div id="demo1" class="collapse"> -->
-  <div class="row">
+ 
+<h3 class="text-muted">&nbsp;&nbsp;&nbsp;Connected To Local Network.......</h3> 
+    <div class="row">
     <div class="col-lg-5">
-<button class="btn btn-primary col-lg-5" (click)="listAccount()">list Accounts</button>
-<button class="btn btn-primary col-lg-5" (click)="createClick()">Create Account</button>
+<!-- <button class="btn btn-primary col-lg-5" [routerLink]="['locallistaccount']">list Accounts</button>
+
+<button class="btn btn-primary col-lg-5" [routerLink]="['localcreateaccount']">Create Account</button>
 
 
-<button class="btn btn-primary col-lg-5" (click)="balanceClick()" >Balance</button>
+<button class="btn btn-primary col-lg-5" [routerLink]="['localbalance']" >Balance</button>
 
 
-  <button class="btn btn-primary col-lg-5" (click)="transactionClick()" >Send Transaction</button>
+  <button class="btn btn-primary col-lg-5" [routerLink]="['localsendtrans']" >Send Transaction</button>
   
 
-    <button class="btn btn-primary col-lg-5" (click)="pending()" >Pending Transaction</button>
+    <button class="btn btn-primary col-lg-5" [routerLink]="['localpendingtrans']" >Pending Transaction</button>
 
-    <button class="btn btn-primary col-lg-5" (click)="pushClick()" >push account</button>
+    <button class="btn btn-primary col-lg-5" [routerLink]="['localtranslist']" >Transaction</button> -->
+
+    <!-- <button class="btn btn-primary col-lg-5" (click)="pushClick()" >push account</button> -->
  
-<p *ngIf = "localPending">{{localPendingHash}}</p>
+    <div class="sidenav">
+        <a [routerLink]="['locallistaccount']">list Accounts</a>
+        <a [routerLink]="['localcreateaccount']">Create Account</a>
+        <a [routerLink]="['localbalance']">Balance</a>
+        <a [routerLink]="['localsendtrans']">Send Transaction</a>
+        <a [routerLink]="['localpendingtrans']">Pending Transaction</a>
+        <a [routerLink]="['localtranslist']">Transaction List</a>
+      </div>
+
+
 
 
 
 <!-- printing starts from here -->
-
-
-
-<form *ngIf = "createclicked" (submit)="createAccount(password)">
-    <div class="form-group col-lg-7">
-      <label>Password</label>
-      <input type="password" class="form-control" [(ngModel)]="password" name="password">
-    </div>
-    <input type="submit" class="btn btn-primary" value="submit">
-    <button style="margin:15px;" class="btn btn-danger" (click)="clear()">Cancel</button>
-    <br/><br/>
-  </form>
-
-
-  <form *ngIf = "balanceclicked" (submit)="getLocalBalance(address)" >
-    <div class="form-group col-lg-7">
-      <label>Address</label>
-      <input type="text" class="form-control" [(ngModel)]="address" name="address">
-    </div>
-    <input type="submit" class="btn btn-primary" value="submit">
-    <button style="margin:15px;" class="btn btn-danger" (click)="clear()">Cancel</button>
-    <br/><br/>
-  </form>
-
-
-  <form *ngIf = "transactionclicked" (submit)="sendTransaction(from,to,value)" >
-    <div class="form-group col-lg-7">
-      <label>From</label>
-      <input type="text" class="form-control" [(ngModel)]="from" name="from">
-    
-    <label>To</label>
-      <input type="text" class="form-control" [(ngModel)]="to" name="to">
-    
-    <label>Value</label>
-      <input type="text" class="form-control" [(ngModel)]="value" name="value">
-    </div>
-    <input type="submit" class="btn btn-primary" value="submit">
-    <button style="margin:15px;" class="btn btn-danger" (click)="clear()">Cancel</button>
-    <br/><br/>
-  </form>
-
-
 
   <form *ngIf = "pushclicked"(submit)="dbpush(localAccountNumber, password)">
     <div class="form-group col-lg-7">
@@ -77,33 +49,13 @@
   <br/><br/>
 </form>
 
+</div>
 
-<!--  All Forms Above -->
-    <p *ngIf = "localBalance"><br/>Balance of account <br />{{loc.address}} is<br /> {{Balance}}</p>
-    <div style="overflow:auto; max-height:310px; font-size: 12px">
-    <ol *ngIf = "localList">
-    <div *ngFor = "let a of accounts">
-      
-        <li>{{a}}</li>
-      
+<!-- <div class="col-lg-7"> -->
+    <div class=" row align-items-center">
+
+        <router-outlet></router-outlet>     
     </div>
-  </ol>
-</div>
-
-<p *ngIf="localAccount">{{createdAccount}}
-</p>
-
-<p *ngIf = "localTransaction">{{localTransactionHash}}</p>
-
-
-<!-- </div> -->
-
-
-</div>
-<!-- under development  -->
-
-<div class="col-lg-7">
- 
     <!-- <div class="tbl-header">
         <table class="table">
             <thead>
@@ -131,66 +83,9 @@
           </table>
         </div> -->
 
-
-        <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-          </mat-form-field>
-          <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" matSort>
-          
-            <!-- Position Column -->
-            <ng-container matColumnDef="hash">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Hash </th>
-              <td mat-cell *matCellDef="let element"><div style = "white-space:nowrap; width: 220px;overflow: hidden;text-overflow: ellipsis;"><a href="" data-toggle="modal" data-target="#myModal" (click)="localtransactionmodal(element.hash)"> {{element.hash}}</a> </div></td>
-            </ng-container>
-          
-            <!-- Name Column -->
-            <ng-container matColumnDef="from">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> From </th>
-              <td mat-cell *matCellDef="let element"> <div style = "white-space:nowrap; width: 220px;overflow: hidden;text-overflow: ellipsis;">{{element.from}} </div></td>
-            </ng-container>
-          
-            <!-- Weight Column -->
-            <ng-container matColumnDef="ether">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Ether </th>
-              <td mat-cell *matCellDef="let element"> {{element.ether}} </td>
-            </ng-container>
-          
-          
-            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-        </div>
+        
        
 </div>
-</div>
+<!-- </div> -->
 
 
-
-
-<!-- Modal -->
-
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-          <h4 class="modal-title">Transaction Description</h4>
-        </div>
-        <div class="modal-body">
-          <p><strong>From</strong>&nbsp;&nbsp;{{modalValues.from}}</p>
-          <p><strong>To</strong>&nbsp;&nbsp;{{modalValues.to}}</p>
-          <p><strong>Value</strong>&nbsp;&nbsp;{{modalValues.ether/1000000000000000000}}&nbsp;&nbsp;<strong>ethers.</strong></p>
-          <p style = "font-size: 12px;"><strong style = "font-size: 18x;">Hash</strong>&nbsp;&nbsp;{{modalValues.hash}}</p>
-          <p><strong>Time</strong>&nbsp;&nbsp;{{modalValues.time}}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>

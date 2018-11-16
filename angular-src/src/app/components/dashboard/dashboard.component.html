@@ -1,24 +1,28 @@
 
-    <div class="container">
+    <!-- <div class="container"> -->
 
-        <div class="row">
-            <div class="col-lg-8"></div>
-            <div class="col-lg-4">
-                <mat-form-field>  
-                  <mat-select placeholder="Network" [(value)]="network" > <!-- (selectionChange)="myFunction(network)"-->
+        <!-- <div class="row"> -->
+            <!-- <div class="col-lg-8"></div>
+            <div class="col-lg-4"> -->
+                <div>
+                <mat-form-field> 
+                        
+                  <mat-select placeholder="Select Network" [(value)]="network" > <!-- (selectionChange)="myFunction(network)"-->
                   <mat-option class="form-control" [routerLink]="['test']" [queryParams]="{network: 'rinkeby'}" routerLinkActive="active" value="rinkeby">Rinkeyby Test Network</mat-option>
                   <mat-option class="form-control" [routerLink]="['test']" [queryParams]="{network: 'ropsten'}" routerLinkActive="active" value="ropsten">Ropsten Test Network</mat-option>
                   <mat-option class="form-control" [routerLink]="['test']" [queryParams]="{network: 'kovan'}" routerLinkActive="active" value="kovan">Kovan Test Network</mat-option>
                   <mat-option class="form-control" [routerLink]="['local']" [queryParams]="{network: 'local'}" routerLinkActive="active" value="local">LocalHost 8545</mat-option>
                   </mat-select>
                 </mat-form-field>
+                
             </div>
-        </div>
+            <!-- </div> -->
+        <!-- </div> -->
 
       
 
       <!-- <div class="box box-left" style="float:left;">This div occupies the left half</div> -->
-      <div class="box box-right dropdown"  style="float:right;">
+      <!-- <div class="box box-right dropdown"  style="float:right;"> -->
 
           <!-- <button class="dropbtn">Hover</button>
           <div class="dropdown-content" style="text-align: center">
@@ -26,13 +30,13 @@
               <a routerLink="test" routerLinkActive="active">Players</a>
             <a href="#">Link 3</a>
           </div> -->
-            </div>  
+            <!-- </div>   -->
 
             <div>
                 <router-outlet></router-outlet>     
             </div>
                 
-    </div>
+    <!-- </div> -->
     
 
 

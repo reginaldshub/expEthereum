@@ -1,0 +1,10 @@
+.mat-elevation-z8 {
+    height: 400px;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+  }
+ /* mat-form-field{
+      display: flex;
+      justify-content: center;
+  } */

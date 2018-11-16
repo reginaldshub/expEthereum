@@ -1,8 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { AuthService } from "../../services/auth.service";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FlashMessagesService } from '../../flash/flash-messages.service';
-import {Sort} from '@angular/material';
+import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
+
+
+
+export interface PeriodicElement {
+  confirmations:any;
+  blockNumber:any;
+  timeStamp:any;
+  hash:any;
+  nonce:any;
+  blockHash:any;
+  transactionIndex:any;
+  from:any;
+  to:any;
+  value:any;
+  gas:any;
+  gasPrice:any;
+  isError:any;
+  txreceipt_status:any;
+  input:any;
+  contractAddress:any;
+  cumulativeGasUsed:any;
+  gasUsed:any;
+}
+
+let ELEMENT_DATA: PeriodicElement[];
 
 @Component({
   selector: 'app-testnetwork',
@@ -10,8 +35,11 @@ import {Sort} from '@angular/material';
   styleUrls: ['./testnetwork.component.css']
 })
 export class TestnetworkComponent implements OnInit {
-  accountBalance;log;modalValues="";dateString;
-  result = [];createdAccount;
+  userFilter: any={hash:''}
+  dataSource;p: number = 1;
+  accdet:boolean=false;transdet:boolean=true;
+  accountBalance;log;modalValues={};dateString;
+  result;createdAccount;
   accounts;Balance;localTransactionHash;localPendingHash;
   localAccount:boolean;
   localPending:boolean;
@@ -25,11 +53,10 @@ export class TestnetworkComponent implements OnInit {
 
   constructor(private authService: AuthService,
     private router:Router,private flashMessage: FlashMessagesService,
-    private route:ActivatedRoute) { 
-      
-
-
-      
+    private route:ActivatedRoute,
+    ) { 
+      this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+      // console.log(filterPipe.transform(this.result, {}));
     }
     
     account;username;network;
@@ -48,8 +75,14 @@ export class TestnetworkComponent implements OnInit {
       log:String
     }
 
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
+
   ngOnInit() {
     //  this.internetConnection();
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
 
     let user;
     user = localStorage.getItem("user");
@@ -77,24 +110,36 @@ export class TestnetworkComponent implements OnInit {
             this.accountBalance = "";
             this.accountBalance += Bal.balance;
             this.accountBalance += ".ethers";
-          },2000);
+          },1000);
           }});
 
 
           this.authService.getTransaction(this.useraccount).subscribe(res => {
-            let a = JSON.parse(res.response.body);
-            console.log("parsed"+a.result);
+            let a = JSON.parse(res.body);
             
-            
+            // console.log("parsed"+a.result[0].from);
             this.result = a.result;
-            
+            ELEMENT_DATA = a.result;     
+            console.log(ELEMENT_DATA);     
           });    
 
 
     });
-  
+  }
 
-  
+  displayedColumns: string[] = ['hash', 'status'];
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  accdetailclick(){
+    this.transdet = false;
+    this.accdet = true;
+  }
+  transdetailclick(){
+    this.transdet = true;
+    this.accdet = false;
   }
 
   
@@ -113,10 +158,8 @@ internetConnection(){
 
 
   transData(a){
-  //  console.log(this.result.indexOf(a));
-  // var index = this.result.findIndex(obj => obj.hash==a);
-  
-  var val = a;
+    var val = a;
+    console.log(a);
   var index = this.result.findIndex(function(item, i){
     return item.hash === val;
   });

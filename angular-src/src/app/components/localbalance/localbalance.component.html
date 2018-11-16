@@ -1,0 +1,15 @@
+<br/>
+
+<h3><mark>Balance</mark></h3><br/><br/>
+
+<form (submit)="getLocalBalance(address)" >
+    <div class="form-group  col-xs-4">
+      <label>Address</label>
+      <input type="text" class="form-control" [(ngModel)]="address" name="address">
+    </div>
+    <input type="submit" class="btn btn-primary" value="submit">
+    <!-- <button style="margin:15px;" class="btn btn-danger" (click)="clear()">Cancel</button> -->
+    <br/><br/>
+  </form>
+
+  <div *ngIf = "bol"><br/>Balance of account <br />{{loc.address}} is<br /> {{Balance}}</div>
