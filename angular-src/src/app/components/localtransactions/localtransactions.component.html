@@ -8,19 +8,20 @@
   <div class="h-100 row align-items-center">
   <table mat-table [dataSource]="dataSource" matSort>
     
-    <!-- Position Column -->
-    <ng-container matColumnDef="hash">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Hash </th>
-      <td mat-cell *matCellDef="let element"><div style = "white-space:nowrap; width: 220px;overflow: hidden;text-overflow: ellipsis;"><a href="" data-toggle="modal" data-target="#myModal" (click)="localtransactionmodal(element.hash)"> {{element.hash}}</a> </div></td>
-    </ng-container>
   
-    <!-- Name Column -->
+    <!-- from Column -->
     <ng-container matColumnDef="from">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> From </th>
-      <td mat-cell *matCellDef="let element"> <div style = "white-space:nowrap; width: 220px;overflow: hidden;text-overflow: ellipsis;">{{element.from}} </div></td>
+      <td mat-cell *matCellDef="let element"> <div style = "white-space:nowrap; width: 220px;overflow: hidden;text-overflow: ellipsis;"><a href="" data-toggle="modal" data-target="#myModal" (click)="localtransactionmodal(element.from)">{{element.from}}</a> </div></td>
+    </ng-container>
+
+    <!-- to Column -->
+    <ng-container matColumnDef="to">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> To </th>
+      <td mat-cell *matCellDef="let element"><div style = "white-space:nowrap; width: 220px;overflow: hidden;text-overflow: ellipsis;"> {{element.to}} </div></td>
     </ng-container>
   
-    <!-- Weight Column -->
+    <!-- ether Column -->
     <ng-container matColumnDef="ether">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Ether </th>
       <td mat-cell *matCellDef="let element"> {{element.ether}} </td>

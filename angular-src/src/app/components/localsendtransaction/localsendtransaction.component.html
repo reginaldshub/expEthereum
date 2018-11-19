@@ -1,12 +1,15 @@
 <br/>
 
 <h3><mark>Send Transaction</mark></h3><br/><br/>
-  <form (submit)="sendTransaction(from,to,value)" >
+  <form (submit)="sendTransaction(from,to,value,password)" >
       <div class="form-group  col-xs-4">
         
         <label>From</label>
         <input type="text" class="form-control" [(ngModel)]="from" name="from">
-      
+
+        <label>Password</label>
+        <input type="password" class="form-control" [(ngModel)]="password" name="password">
+
       <label>To</label>
         <input type="text" class="form-control" [(ngModel)]="to" name="to">
       

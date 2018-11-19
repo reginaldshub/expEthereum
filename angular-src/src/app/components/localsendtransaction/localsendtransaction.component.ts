@@ -12,7 +12,8 @@ export class LocalsendtransactionComponent implements OnInit {
   transac = {
     from:String,
     to:String,
-    value:Number
+    value:Number,
+    password:String
   }
   localTransactionHash;
 
@@ -21,11 +22,13 @@ export class LocalsendtransactionComponent implements OnInit {
     private route:ActivatedRoute) { }
 
   ngOnInit() {
+    this.checkConnection();
   }
-  sendTransaction(from,to,value){
+  sendTransaction(from,to,value,password){
   this.transac.from = from;
   this.transac.to = to;
   this.transac.value = value;
+  this.transac.password = password;
   // this.pending();
   this.authService.sendTransaction(this.transac).subscribe(res => {
     console.log(res.hash.transactionHash);
@@ -34,5 +37,24 @@ export class LocalsendtransactionComponent implements OnInit {
     this.localTransactionHash = JSON.stringify(res.hash.transactionHash);
 
 });
+  }
+
+  checkConnection(){
+    this.authService.checkConnection().subscribe(res => {
+      if(res.success == false){
+        this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:2000})
+        this.router.navigate(['dashboard']);
+        // this.table = false;
+      }
+      else{
+        // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
+      }
+      console.log(res);
+      
+  },
+  err => {
+  console.log(err);
+  return false;
+  });
   }
 }

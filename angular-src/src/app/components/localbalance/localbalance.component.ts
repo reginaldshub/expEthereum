@@ -20,6 +20,25 @@ export class LocalbalanceComponent implements OnInit {
     private route:ActivatedRoute) { }
 
   ngOnInit() {
+    this.checkConnection();
+  }
+  checkConnection(){
+    this.authService.checkConnection().subscribe(res => {
+      if(res.success == false){
+        this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:2000})
+        this.router.navigate(['dashboard']);
+        // this.table = false;
+      }
+      else{
+        // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
+      }
+      console.log(res);
+      
+  },
+  err => {
+  console.log(err);
+  return false;
+  });
   }
 
   getLocalBalance(address){

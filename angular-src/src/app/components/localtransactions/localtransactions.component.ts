@@ -48,7 +48,7 @@ export class LocaltransactionsComponent implements OnInit {
    
   }
 
-  displayedColumns: string[] = ['hash', 'from', 'ether'];
+  displayedColumns: string[] = ['from', 'to', 'ether'];
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -59,7 +59,7 @@ export class LocaltransactionsComponent implements OnInit {
     var val = a;
     console.log(a);
     var index = this.localtransactionlist.findIndex(function(item, i){
-      return item.hash === val;
+      return item.from === val;
     });
     
     console.log("index Is"+index);

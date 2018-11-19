@@ -233,8 +233,9 @@ router.post('/localtransaction', (req, res, next) => {
     // console.log(req.body.to);
     // console.log(req.body.value);
     // web3.eth.miner.start(1);
-    // web3.eth.personal.unlockAccount(req.body.from, "password",3000);
+    // web3.eth.personal.unlockAccount(req.body.from, "password");
     // web3.eth.personal.unlockAccount(req.body.to, "password",3000);
+    web3.eth.personal.unlockAccount(req.body.from, req.body.password);
     web3.eth.sendTransaction({
         'to': req.body.to,
         'from': req.body.from,

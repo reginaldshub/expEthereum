@@ -17,6 +17,7 @@ export class LocallistaccountComponent implements OnInit {
 
   ngOnInit() {
   
+this.checkConnection();
     this.authService.getAccount().subscribe(res => {
       console.log(res);
       this.accounts = res.accounts;
@@ -26,4 +27,25 @@ export class LocallistaccountComponent implements OnInit {
       return false;
     });
 }
+
+
+checkConnection(){
+  this.authService.checkConnection().subscribe(res => {
+    if(res.success == false){
+      this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:2000})
+      this.router.navigate(['dashboard']);
+      // this.table = false;
+    }
+    else{
+      // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
+    }
+    console.log(res);
+    
+},
+err => {
+console.log(err);
+return false;
+});
+}
+
 }

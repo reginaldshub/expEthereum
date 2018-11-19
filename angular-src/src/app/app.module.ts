@@ -58,7 +58,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
 import { ValidateService } from "./services/validate.service";
-import { TransactionsComponent } from './components/transactions/transactions.component';
 import { BalanceComponent } from './components/balance/balance.component';
 import { TestnetworkComponent } from './components/testnetwork/testnetwork.component';
 import { LocalnetworkComponent } from './components/localnetwork/localnetwork.component';
@@ -86,7 +85,6 @@ const appRoutes: Routes = [
      {path: 'localpendingtrans', component: LocalpendingtransactionComponent},
    ]},
     {path: 'balance', component: BalanceComponent},
-     { path: 'transaction', component: TransactionsComponent},
      { path: 'test', component: TestnetworkComponent},
      { path: 'local', component: LocalnetworkComponent , canActivate:[AuthGuard]
    ,children: [
@@ -112,7 +110,6 @@ const appRoutes: Routes = [
     HomeComponent,
     DashboardComponent,
     ProfileComponent,
-    TransactionsComponent,
     BalanceComponent,
     TestnetworkComponent,
     LocalnetworkComponent,

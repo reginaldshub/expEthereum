@@ -32,7 +32,8 @@ export class LocalnetworkComponent implements OnInit {
    
     
   ngOnInit() {
-    this.checkConnection();
+    // this.checkConnection();
+
    
     // ELEMENT_DATA = this.localtransactionlist;
   } 
@@ -53,24 +54,24 @@ export class LocalnetworkComponent implements OnInit {
 //   log:String
 // }
 
-  checkConnection(){
-    this.authService.checkConnection().subscribe(res => {
-      if(res.success == false){
-        this.flashMessage.show("Contact Admin Sir", {cssClass: 'alert-danger', timeout:5000})
-        this.router.navigate(['dashboard']);
-        // this.table = false;
-      }
-      else{
-        // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
-      }
-      console.log(res);
+//   checkConnection(){
+//     this.authService.checkConnection().subscribe(res => {
+//       if(res.success == false){
+//         this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:5000})
+//         this.router.navigate(['dashboard']);
+//         // this.table = false;
+//       }
+//       else{
+//         // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
+//       }
+//       console.log(res);
       
-},
-err => {
-console.log(err);
-return false;
-});
-  }
+// },
+// err => {
+// console.log(err);
+// return false;
+// });
+//   }
 
 
 //local Begins here
