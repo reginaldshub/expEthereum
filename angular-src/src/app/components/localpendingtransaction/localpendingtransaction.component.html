@@ -1,6 +1,15 @@
 <br/>
 
+<div class="container">
+        <div *ngIf = "connection" class="align-items-left">    
+                <h3 class="text-muted">&nbsp;&nbsp;&nbsp;Disconnected from Local Network.......</h3> <br/>
+                </div>
+                <div *ngIf = "!connection" class="align-items-left">    
+                    <h3 class="text-muted">&nbsp;&nbsp;&nbsp;Connected to Local Network.......</h3> <br/>
+                    </div>
+<div class="container">
 <h3><mark>Pending Transactions</mark></h3><br/><br/>
-
+</div>
 <p><strong>{{decimalnum}}</strong> Transactions Pending</p>
 <p>{{startMiner}}</p>
+</div>

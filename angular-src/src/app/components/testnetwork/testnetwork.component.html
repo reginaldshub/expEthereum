@@ -20,15 +20,36 @@
 <br />
 <br/>
 </div> -->
-<div class="sidenav"><br/><br />
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <img src="./../../../assets/eth.png " style="height:25px;width:20px;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" (click)="accdetailclick()">Account Details</a>
+        </li> 
+        <li class="nav-item"><a class="nav-link" (click)="transdetailclick()">Transactions List</a></li>
+ 
+      </ul>
+    </div>
+  </nav>
+
+
+<!-- <div class="sidenav"><br/><br />
     <a (click)="accdetailclick()">Account Details</a>
     <hr/>
     <a (click)="transdetailclick()">Transactions List</a>
     <hr/>
-  </div>
+  </div> -->
+
   <h3 class="text-muted">&nbsp;&nbsp;&nbsp;Connected To {{network}} Network.......</h3> 
-  <div class="container h-100 d-flex justify-content-center">
-      <div *ngIf="accdet" >
+
+  <div class="container d-flex justify-content-center">
+      <div *ngIf="accdet" class="container" >
           <h3><mark>Account Details </mark></h3><br/>
 
           <ul class="list-group list-group-flush">
@@ -42,10 +63,12 @@
           <br/><br/>
 
           
-      <div *ngIf="transdet" style=" width: max-content;overflow:auto;" > 
-          <h3><mark>Transaction Details </mark></h3><br/>  
+      <div *ngIf="transdet"  class="container" > 
+          <h3><mark>Transaction Details </mark></h3><br/> 
+          <div class="col-sm-8"> 
           <input class="inp" type="text" [(ngModel)]="userFilter.hash" placeholder="Hash"> <br/>         
-        <table>
+        </div>
+          <table>
              <tr>                
                 <th >Hash</th>
                 <th>Status</th>

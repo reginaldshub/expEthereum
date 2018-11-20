@@ -14,6 +14,7 @@ export class LocalbalanceComponent implements OnInit {
   }
   Balance;bol:boolean = false;
   
+  connection:boolean = false;
 
   constructor(private authService: AuthService,
     private router:Router,private flashMessage: FlashMessagesService,
@@ -25,11 +26,15 @@ export class LocalbalanceComponent implements OnInit {
   checkConnection(){
     this.authService.checkConnection().subscribe(res => {
       if(res.success == false){
-        this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:2000})
-        this.router.navigate(['dashboard']);
+        // this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:1000})
+        this.connection = true;
+        console.log(this.connection);
+        // this.router.navigate(['dashboard']);
         // this.table = false;
       }
       else{
+        this.connection = false;
+        console.log(this.connection);
         // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
       }
       console.log(res);

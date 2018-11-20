@@ -10,6 +10,7 @@ import { FlashMessagesService } from '../../flash/flash-messages.service';
 })
 export class LocallistaccountComponent implements OnInit {
   accounts;
+  connection:boolean;
 
   constructor(private authService: AuthService,
     private router:Router,private flashMessage: FlashMessagesService,
@@ -20,7 +21,7 @@ export class LocallistaccountComponent implements OnInit {
 this.checkConnection();
     this.authService.getAccount().subscribe(res => {
       console.log(res);
-      this.accounts = res.accounts;
+      this.accounts = res;
     },
     err => {
       console.log(err);
@@ -32,11 +33,13 @@ this.checkConnection();
 checkConnection(){
   this.authService.checkConnection().subscribe(res => {
     if(res.success == false){
-      this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:2000})
-      this.router.navigate(['dashboard']);
+      // this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:1000})
+      this.connection = true;
+      // this.router.navigate(['dashboard']);
       // this.table = false;
     }
     else{
+      this.connection = false;
       // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
     }
     console.log(res);

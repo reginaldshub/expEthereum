@@ -10,10 +10,12 @@ import { FlashMessagesService } from '../../flash/flash-messages.service';
 })
 export class LocalcreateaccountComponent implements OnInit {
   local = {
-    password:String
+    password:String,
+    name:String
   }
   createdAccount:string;
   StringP:string;
+  connection:boolean;
 
   constructor(private authService: AuthService,
     private router:Router,private flashMessage: FlashMessagesService,
@@ -26,11 +28,13 @@ export class LocalcreateaccountComponent implements OnInit {
   checkConnection(){
     this.authService.checkConnection().subscribe(res => {
       if(res.success == false){
-        this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:2000})
-        this.router.navigate(['dashboard']);
+        this.connection = true;
+        // this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:1000})
+        // this.router.navigate(['dashboard']);
         // this.table = false;
       }
       else{
+        this.connection = false;
         // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
       }
       console.log(res);
@@ -42,10 +46,11 @@ export class LocalcreateaccountComponent implements OnInit {
   });
   }
 
-  createAccount(password){
+  createAccount(name, password){
 
    if(password.length >= 1){
     this.local.password = password;
+    this.local.name = name;
     this.authService.createAccount(this.local).subscribe(res => {
       console.log(res.created);
       this.createdAccount = res.created;

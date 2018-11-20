@@ -1,27 +1,57 @@
 <br/>
 
-<h3><mark>Transaction Details</mark></h3>
+<div *ngIf = "connection" >    
+    <h3 class="text-muted">&nbsp;&nbsp;&nbsp;Disconnected from Local Network.......</h3> <br/>
+    </div>
+    <div *ngIf = "!connection" class="align-items-left">    
+        <h3 class="text-muted">&nbsp;&nbsp;&nbsp;Connected to Local Network.......</h3> <br/>
+        </div>
 
-<mat-form-field>
+<div class="container">
+    
+
+    <h3><mark>Transaction Details </mark></h3><br/> 
+    <div class="container">
+    <input class="inp" type="text" [(ngModel)]="userFilter.from" placeholder="From"> <br/>         
+    </div>
+    <div>
+    <table>
+       <tr>                
+          <th>From</th>
+          <th>To</th>
+          <th>Ether</th>
+        </tr>  
+        <tr *ngFor = "let a of result  | filterBy:userFilter | paginate: { itemsPerPage: 10, currentPage: p} ">              
+          <td> <a href="" data-toggle="modal" data-target="#myModal" (click)="localtransactionmodal(a.from)">{{a.from}} </a></td>
+          <td>{{a.to}} </td>
+          <td>{{a.ether}} </td>
+         
+        </tr>
+        <tr>
+      </tr>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </table>
+  </div>
+  </div>
+
+
+<!-- <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
   <div class="h-100 row align-items-center">
   <table mat-table [dataSource]="dataSource" matSort>
     
   
-    <!-- from Column -->
     <ng-container matColumnDef="from">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> From </th>
       <td mat-cell *matCellDef="let element"> <div style = "white-space:nowrap; width: 220px;overflow: hidden;text-overflow: ellipsis;"><a href="" data-toggle="modal" data-target="#myModal" (click)="localtransactionmodal(element.from)">{{element.from}}</a> </div></td>
     </ng-container>
 
-    <!-- to Column -->
     <ng-container matColumnDef="to">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> To </th>
       <td mat-cell *matCellDef="let element"><div style = "white-space:nowrap; width: 220px;overflow: hidden;text-overflow: ellipsis;"> {{element.to}} </div></td>
     </ng-container>
   
-    <!-- ether Column -->
     <ng-container matColumnDef="ether">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Ether </th>
       <td mat-cell *matCellDef="let element"> {{element.ether}} </td>
@@ -34,7 +64,7 @@
 </div>
 
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-
+</div> -->
 
 
 <!-- Modal -->

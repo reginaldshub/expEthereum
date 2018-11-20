@@ -10,6 +10,7 @@ import { FlashMessagesService } from '../../flash/flash-messages.service';
 })
 export class LocalpendingtransactionComponent implements OnInit {
   localPendingHash;decimalnum;startMiner;
+  connection:boolean;
 
 
   constructor(private authService: AuthService,
@@ -31,11 +32,13 @@ export class LocalpendingtransactionComponent implements OnInit {
   checkConnection(){
   this.authService.checkConnection().subscribe(res => {
     if(res.success == false){
-      this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:2000})
-      this.router.navigate(['dashboard']);
+      // this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:1000})
+      this.connection = true;
+      // this.router.navigate(['dashboard']);
       // this.table = false;
     }
     else{
+      this.connection = false; 
       // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
     }
     console.log(res);

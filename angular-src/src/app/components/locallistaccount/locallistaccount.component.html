@@ -1,12 +1,21 @@
 <!-- <input type="text" [(ngModel)]="userFilter" placeholder="Account"> --><br/>
+<div class="containter">
+        <div *ngIf = "connection" class="align-items-left">    
+                <h3 class="text-muted">&nbsp;&nbsp;&nbsp;Disconnected from Local Network.......</h3> <br/>
+                </div>
+                <div *ngIf = "!connection" class="align-items-left">    
+                    <h3 class="text-muted">&nbsp;&nbsp;&nbsp;Connected to Local Network.......</h3> <br/>
+                    </div>
+    <div class="container">
 <h3><mark>Account List </mark></h3><br/>
-
+</div>
     <ul *ngFor = "let accounts of accounts| paginate: { itemsPerPage: 10, currentPage: p} ">
       
-        <li>{{accounts}}</li>
-    
+        <li>{{accounts.name}}
+        {{accounts.accountno}}</li>
       
     </ul>
     <div style="position: fixed">
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
 </div>

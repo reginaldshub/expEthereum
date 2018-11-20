@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Transaction = require('../models/transaction');
+const Accountuser = require('../models/accountuser');
 const config = require('../config/database');
 var ethers = require('ethers');
 var providers = require('ethers-providers');
@@ -125,7 +126,7 @@ router.post('/authenticate', (req, res, next) => {
             if(err) throw err;
             if(isMatch){
                 const token = jwt.sign({data: user}, config.secret, {
-                    expiresIn: 604800
+                    expiresIn: 3600
                 });
                 res.json({
                     success:true,
@@ -212,18 +213,62 @@ router.post('/createAccount', (req, res, next) => {
         console.log(created);
         res.json({created});
 
+        data = {
+            accountno:created,
+            name:req.body.name,
+            password:req.body.password
+        }
+
+        console.log(data)
+
+        Accountuser.adduseraccount(data, (err, res) => {
+            if(err){
+                res.json({success:false, msg:'Failed to create accout'})
+            }else{
+                res.json({success:true, msg:'account created'})
+            }
+        })
+
     });         
 });
 
 router.post('/localbalance', (req, res, next) => {
     console.log(req.body.address);
-    web3.eth.getBalance(req.body.address)
-    .then((balance) => {
-        bal = balance.toString(10);
-        finalBal = web3.utils.fromWei(bal, 'ether');
-        console.log(finalBal);
-        res.json({balance:finalBal})
-    })
+    // var query = { name:  req.body.address};
+    // Accountuser.find(query).toArray(function (err, acc) {
+        //    console.log("hey"+acc);
+        //    res.send(acc);
+        //    web3.eth.getBalance(acc)
+        //    .then((balance) => {
+        //     bal = balance.toString(10);
+        //     finalBal = web3.utils.fromWei(bal, 'ether');
+        //     console.log(finalBal);
+        //     res.json({balance:finalBal})
+        // })
+        // });
+
+        var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("meanauth");
+  var query = { name:req.body.address };
+  dbo.collection("accountuser").find(query).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result[0].accountno);
+    web3.eth.getBalance(result[0].accountno)
+           .then((balance) => {
+            bal = balance.toString(10);
+            finalBal = web3.utils.fromWei(bal, 'ether');
+            console.log(finalBal);
+            res.json({balance:finalBal})
+        })
+    db.close();
+  });
+});
+       
+    
 });
 
 
@@ -235,10 +280,27 @@ router.post('/localtransaction', (req, res, next) => {
     // web3.eth.miner.start(1);
     // web3.eth.personal.unlockAccount(req.body.from, "password");
     // web3.eth.personal.unlockAccount(req.body.to, "password",3000);
-    web3.eth.personal.unlockAccount(req.body.from, req.body.password);
+
+    var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("meanauth");
+  dbo.collection("accountuser").find({ name:req.body.from }).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result[0].accountno);
+    from = result[0].accountno;
+    dbo.collection("accountuser").find({ name:req.body.to }).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result[0].accountno);
+        to = result[0].accountno;
+        console.log("From"+from+"to"+to);
+
+   web3.eth.personal.unlockAccount(from, req.body.password);
     web3.eth.sendTransaction({
-        'to': req.body.to,
-        'from': req.body.from,
+        'to': to,
+        'from': from,
         'value': req.body.value
     })
     .then(function(receipt){
@@ -262,6 +324,15 @@ router.post('/localtransaction', (req, res, next) => {
         })
         console.log(receipt);
     });
+
+        db.close();
+      });
+  });
+});
+
+ 
+
+// above uncoment
 
     // web3.eth.sendTransaction({from: req.body.from, to:req.body.to, value: web3.utils.toWei(req.body.value, 'ether'), gasLimit: 21000, gasPrice: 20000000000})
     // .then(function(err,hash){
@@ -300,13 +371,30 @@ web3.eth.extend({
 
 
 router.get('/getAccounts', (req, res, next) => {
+  
+    // to get accounts directly from geth 
+// const getAccount = async () => {
+//    const accounts = await web3.eth.getAccounts();
+//    console.log(accounts);
+//    res.json({accounts:accounts});
+// };
+// getAccount();
+//
+
+//get accounts from database
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("meanauth");
+  dbo.collection("accountuser").find({}).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
     
-const getAccount = async () => {
-   const accounts = await web3.eth.getAccounts();
-   console.log(accounts);
-   res.json({accounts:accounts});
-};
-getAccount();
+  });
+});
 })
 
 router.get('/localTransactionList', (req, res, next) => {

@@ -1,5 +1,10 @@
-<h2 class="page-header">Login</h2>
-<form (submit)="onLoginSubmit()" >
+
+<div  class=" d-flex justify-content-around">
+<h2 class="page-header">Login</h2><br/>
+</div>
+
+<div  class=" d-flex justify-content-center">
+<form  (submit)="onLoginSubmit()" >
   <div class="form-group">
     <label>Username</label>
       <input type="text" class="form-control" [(ngModel)]="username" name="username">
@@ -11,3 +16,4 @@
   </div>
   <input type="submit" class="btn btn-primary" value="login">
 </form>
+</div>

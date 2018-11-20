@@ -3,7 +3,7 @@ var MongoClient = require('mongodb').MongoClient;
 const config = require('../config/database')
 url = 'mongodb://localhost:27017/';
 
-//schema 2
+
 const transaction = mongoose.Schema({
     from: {
         type: String
@@ -26,7 +26,7 @@ const transaction = mongoose.Schema({
 
 
 const Transaction = module.exports = mongoose.model('Transaction', transaction);
-//end of schema 2
+
 
 
 module.exports.addTransaction = function(newTransaction, callback){

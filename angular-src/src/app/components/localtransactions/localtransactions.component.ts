@@ -25,18 +25,15 @@ let ELEMENT_DATA: PeriodicElement[];
 
 export class LocaltransactionsComponent implements OnInit {
   localtransactionlist;modalValues={};dataSource;
+  connection:boolean;
+  userFilter: any={from:''};
+  p: number = 1;result;
  
   constructor(private authService: AuthService,
     private router:Router,private flashMessage: FlashMessagesService,
     private route:ActivatedRoute) { 
       this.dataSource = new MatTableDataSource(ELEMENT_DATA);
-      this.authService.localTransactionList().subscribe(res => {
-        // console.log(res);
-        this.localtransactionlist = res;
-        ELEMENT_DATA = res;
-  
-        console.log(ELEMENT_DATA);
-      })
+     
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -45,13 +42,37 @@ export class LocaltransactionsComponent implements OnInit {
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.checkConnection();
+    this.authService.localTransactionList().subscribe(res => {
+      // console.log(res);
+      this.localtransactionlist = res;
+      ELEMENT_DATA = res;
+      this.result = res;
+
+      console.log(ELEMENT_DATA);
+    })
    
   }
 
-  displayedColumns: string[] = ['from', 'to', 'ether'];
-
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  checkConnection(){
+    this.authService.checkConnection().subscribe(res => {
+      if(res.success == false){
+        // this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:2000})
+        this.connection = true;
+        // this.router.navigate(['dashboard']);
+        // this.table = false;
+      }
+      else{
+        this.connection = false;
+        // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
+      }
+      console.log(res);
+      
+  },
+  err => {
+  console.log(err);
+  return false;
+  });
   }
 
 
@@ -66,6 +87,13 @@ export class LocaltransactionsComponent implements OnInit {
     this.modalValues = this.localtransactionlist[index];
   // console.log(index, filteredObj);
       console.log(this.modalValues);
+    }
+
+
+    displayedColumns: string[] = ['hash', 'status'];
+
+    applyFilter(filterValue: string) {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
 }

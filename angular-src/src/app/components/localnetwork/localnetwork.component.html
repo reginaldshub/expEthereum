@@ -1,7 +1,32 @@
 <!-- <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo1">Local Network</button>
   <div id="demo1" class="collapse"> -->
- 
-<h3 class="text-muted">&nbsp;&nbsp;&nbsp;Connected To Local Network.......</h3> 
+
+
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <img src="./../../../assets/eth.png " style="height:25px;width:20px;">
+          <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                  <a class="nav-link" [routerLink]="['locallistaccount']">List Accounts</a>
+              </li> 
+              <li class="nav-item"><a class="nav-link" [routerLink]="['localcreateaccount']">Create Account</a></li>
+        <li class="nav-item"><a class="nav-link" [routerLink]="['localbalance']">Balance</a></li>
+        <li class="nav-item"><a class="nav-link" [routerLink]="['localsendtrans']">Send Transaction</a></li>
+        <li class="nav-item"><a class="nav-link" [routerLink]="['localpendingtrans']">Pending Transaction</a></li>
+        <li class="nav-item"><a class="nav-link" [routerLink]="['localtranslist']">Transaction List</a></li>
+            </ul>
+          </div>
+        </nav>
+
+
+   
+
     <div class="row">
     <div class="col-lg-5">
 <!-- <button class="btn btn-primary col-lg-5" [routerLink]="['locallistaccount']">list Accounts</button>
@@ -21,14 +46,7 @@
 
     <!-- <button class="btn btn-primary col-lg-5" (click)="pushClick()" >push account</button> -->
  
-    <div class="sidenav">
-        <a [routerLink]="['locallistaccount']">list Accounts</a>
-        <a [routerLink]="['localcreateaccount']">Create Account</a>
-        <a [routerLink]="['localbalance']">Balance</a>
-        <a [routerLink]="['localsendtrans']">Send Transaction</a>
-        <a [routerLink]="['localpendingtrans']">Pending Transaction</a>
-        <a [routerLink]="['localtranslist']">Transaction List</a>
-      </div>
+ 
 
 
 
@@ -87,5 +105,4 @@
        
 </div>
 <!-- </div> -->
-
 

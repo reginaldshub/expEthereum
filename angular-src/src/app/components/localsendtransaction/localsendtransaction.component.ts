@@ -17,6 +17,8 @@ export class LocalsendtransactionComponent implements OnInit {
   }
   localTransactionHash;
 
+  connection:boolean;
+
   constructor(private authService: AuthService,
     private router:Router,private flashMessage: FlashMessagesService,
     private route:ActivatedRoute) { }
@@ -25,28 +27,32 @@ export class LocalsendtransactionComponent implements OnInit {
     this.checkConnection();
   }
   sendTransaction(from,to,value,password){
+    if(this.connection == false){
   this.transac.from = from;
   this.transac.to = to;
   this.transac.value = value;
   this.transac.password = password;
   // this.pending();
   this.authService.sendTransaction(this.transac).subscribe(res => {
-    console.log(res.hash.transactionHash);
+    // console.log(res.hash.transactionHash);
       // this.pending();    
       // this.localtransactionlistfunc();
     this.localTransactionHash = JSON.stringify(res.hash.transactionHash);
 
 });
+}
   }
 
   checkConnection(){
     this.authService.checkConnection().subscribe(res => {
       if(res.success == false){
-        this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:2000})
-        this.router.navigate(['dashboard']);
+        // this.flashMessage.show("Contact Admin ", {cssClass: 'alert-danger', timeout:1000})
+        this.connection = true;
+        // this.router.navigate(['dashboard']);
         // this.table = false;
       }
       else{
+        this.connection = false;
         // this.flashMessage.show("Good TO GO", {cssClass: 'alert-success', timeout:500})
       }
       console.log(res);

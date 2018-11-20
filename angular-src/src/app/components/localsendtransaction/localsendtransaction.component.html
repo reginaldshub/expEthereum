@@ -1,25 +1,36 @@
 <br/>
 
+<div class="container">
+
+    <div *ngIf = "connection" class="align-items-left">    
+        <h3 class="text-muted">&nbsp;&nbsp;&nbsp;Disconnected from Local Network.......</h3> <br/>
+        </div>
+        <div *ngIf = "!connection" class="align-items-left">    
+            <h3 class="text-muted">&nbsp;&nbsp;&nbsp;Connected to Local Network.......</h3> <br/>
+            </div>
+
+<div class="container">
 <h3><mark>Send Transaction</mark></h3><br/><br/>
+</div>
   <form (submit)="sendTransaction(from,to,value,password)" >
       <div class="form-group  col-xs-4">
         
         <label>From</label>
-        <input type="text" class="form-control" [(ngModel)]="from" name="from">
+        <input type="text" class="form-control" [(ngModel)]="from" disabled={{connection}} name="from">
 
         <label>Password</label>
-        <input type="password" class="form-control" [(ngModel)]="password" name="password">
+        <input type="password" class="form-control" [(ngModel)]="password" disabled={{connection}} name="password">
 
       <label>To</label>
-        <input type="text" class="form-control" [(ngModel)]="to" name="to">
+        <input type="text" class="form-control" [(ngModel)]="to" disabled={{connection}} name="to">
       
       <label>Value</label>
-        <input type="text" class="form-control" [(ngModel)]="value" name="value">
+        <input type="text" class="form-control" [(ngModel)]="value" disabled={{connection}} name="value">
       </div>
-      <input type="submit" class="btn btn-primary" value="submit">
+      <input type="submit" class="btn btn-primary" disabled={{connection}} value="submit">
       <!-- <button style="margin:15px;" class="btn btn-danger" (click)="clear()">Cancel</button> -->
       <br/><br/>
     </form>
 
     <p>{{localTransactionHash}}</p>
-
+</div>
